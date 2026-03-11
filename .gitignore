@@ -1,0 +1,26 @@
+# Build output
+/build/
+/dist/
+
+# Test coverage
+coverage.out
+*.coverprofile
+
+# SQLite
+*.db
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+*.swp
+
+# Claude Code
+CLAUDE.md
+AGENTS.md
+.claude/
+
+# Beans
+.beans.yml
+.beans/

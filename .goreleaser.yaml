@@ -1,0 +1,87 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# SPDX-License-Identifier: EUPL-1.2
+
+version: 2
+project_name: __ProjectName__
+
+builds:
+  - main: ./cmd/__ProjectName__
+    binary: __ProjectName__
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+
+archives:
+  - name_template: >-
+      {{ .ProjectName }}-
+      {{- .Version }}-
+      {{- .Os }}-
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "arm64" }}arm64
+      {{- else }}{{ .Arch }}{{ end }}
+    formats:
+      - tar.gz
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+      - goos: darwin
+        formats:
+          - zip
+
+checksum:
+  name_template: checksums.txt
+  algorithm: sha256
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+  groups:
+    - title: Features
+      regexp: "^feat"
+    - title: Bug Fixes
+      regexp: "^fix"
+    - title: Others
+      order: 999
+
+homebrew_casks:
+  - name: __ProjectName__
+    homepage: https://github.com/__GitUser__/__ProjectName__
+    description: __ProjectDescription__
+    binaries:
+      - __ProjectName__
+    directory: Casks
+    repository:
+      owner: __GitUser__
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    commit_author:
+      name: Oliver Andrich
+      email: oliver@andrich.me
+    hooks:
+      post:
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/__ProjectName__"]
+          end
+
+release:
+  owner: __GitUser__
+  name: __ProjectName__
+  prerelease: auto
+  extra_files: []

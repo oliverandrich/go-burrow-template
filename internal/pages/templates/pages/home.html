@@ -1,0 +1,35 @@
+{{ define "pages/home" -}}
+<div class="py-4">
+    <h1 class="mb-3">Welcome to __ProjectName__</h1>
+    <p class="lead text-body-secondary">
+        __ProjectDescription__
+    </p>
+    <hr class="my-4">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><span class="me-2">{{ iconPuzzle }}</span>Burrow</h5>
+                    <p class="card-text">Built on the Burrow web framework &mdash; a Django-inspired Go framework with contrib apps, middleware, and template rendering.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><span class="me-2">{{ iconHouse }}</span>Bootstrap 5</h5>
+                    <p class="card-text">Responsive UI with Bootstrap 5, dark/light theme switcher, and a ready-to-use navbar layout.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><span class="me-2">{{ iconLightning }}</span>htmx</h5>
+                    <p class="card-text">Server-driven interactivity with htmx &mdash; navigation, form submissions, and partial updates without writing JavaScript.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{- end }}

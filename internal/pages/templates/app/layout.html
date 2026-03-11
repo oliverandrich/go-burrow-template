@@ -1,0 +1,91 @@
+{{ define "app/layout" -}}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" href="{{ staticURL "bootstrap/bootstrap.min.css" }}">
+    {{ template "bootstrap/theme_script" . }}
+    <script defer src="{{ staticURL "bootstrap/bootstrap.bundle.min.js" }}"></script>
+    <script defer src="{{ staticURL "htmx/htmx.min.js" }}"></script>
+</head>
+<body>
+    {{ template "app/navbar" . }}
+    <div class="container py-4">
+        {{ template "app/alerts" . }}
+        <main>
+            {{ .Content }}
+        </main>
+    </div>
+    <script>
+    document.body.addEventListener("htmx:pushedIntoHistory", function() {
+        var path = window.location.pathname;
+        document.querySelectorAll(".navbar-nav .nav-link[hx-get]").forEach(function(link) {
+            var url = link.getAttribute("href");
+            var isActive = url === "/"
+                ? path === "/"
+                : path.indexOf(url) === 0;
+            if (isActive) {
+                link.classList.add("active");
+            } else {
+                link.classList.remove("active");
+            }
+        });
+    });
+    </script>
+</body>
+</html>
+{{- end }}
+
+{{ define "app/navbar" -}}
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
+    <div class="container">
+        <a class="navbar-brand" href="/">__ProjectName__</a>
+        <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                {{ range .NavItems -}}
+                <li class="nav-item">
+                    <a class="{{ .LinkClass }}" href="{{ .URL }}"
+                        hx-get="{{ .URL }}" hx-target="main" hx-push-url="true">
+                        {{ if .Icon }}<span class="me-1">{{ .Icon }}</span>{{ end }}
+                        {{ .Label }}
+                    </a>
+                </li>
+                {{- end }}
+            </ul>
+            <div class="me-3">
+                {{ template "bootstrap/theme_switcher" . }}
+            </div>
+        </div>
+    </div>
+</nav>
+{{- end }}
+
+{{ define "app/alerts" -}}
+<div id="alerts">
+    {{ range .Messages -}}
+    <div class="alert alert-{{ alertClass .Level }} alert-dismissible fade show" role="alert">
+        {{ .Text }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {{- end }}
+</div>
+{{- end }}
+
+{{ define "app/alerts_oob" -}}
+<div id="alerts" hx-swap-oob="innerHTML">
+    {{ range .Messages -}}
+    <div class="alert alert-{{ alertClass .Level }} alert-dismissible fade show" role="alert">
+        {{ .Text }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {{- end }}
+</div>
+{{- end }}
