@@ -25,8 +25,14 @@ type App struct{}
 // New creates a new pages app.
 func New() *App { return &App{} }
 
-func (a *App) Name() string                       { return "pages" }
-func (a *App) Register(_ *burrow.AppConfig) error { return nil }
+func (a *App) Name() string { return "pages" }
+
+func (a *App) Register(cfg *burrow.AppConfig) error {
+	cfg.RegisterIconFunc("iconHouse", bsicons.House)
+	cfg.RegisterIconFunc("iconPuzzle", bsicons.Puzzle)
+	cfg.RegisterIconFunc("iconLightning", bsicons.Lightning)
+	return nil
+}
 
 // TemplateFS returns the embedded HTML template files.
 func (a *App) TemplateFS() fs.FS {
@@ -34,12 +40,9 @@ func (a *App) TemplateFS() fs.FS {
 	return sub
 }
 
-// FuncMap returns template functions for icons and alert rendering.
+// FuncMap returns template functions for alert rendering.
 func (a *App) FuncMap() template.FuncMap {
 	return template.FuncMap{
-		"iconHouse":     func(class ...string) template.HTML { return bsicons.House(class...) },
-		"iconPuzzle":    func(class ...string) template.HTML { return bsicons.Puzzle(class...) },
-		"iconLightning": func(class ...string) template.HTML { return bsicons.Lightning(class...) },
 		"alertClass": func(level messages.Level) string {
 			if level == messages.Error {
 				return "danger"

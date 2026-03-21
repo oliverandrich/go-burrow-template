@@ -4,7 +4,7 @@ go 1.26.1
 
 require (
 	github.com/go-chi/chi/v5 v5.2.5
-	github.com/oliverandrich/burrow v0.5.0
+	github.com/oliverandrich/burrow v0.5.1-0.20260320204035-6e4d181436c8
 )
 
 require (
