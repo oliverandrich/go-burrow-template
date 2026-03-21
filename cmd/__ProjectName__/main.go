@@ -59,7 +59,7 @@ func main() {
 		bootstrap.New(),
 	)
 
-	srv.SetLayout(pages.Layout())
+	srv.SetLayout(bootstrap.NavLayout())
 
 	cmd := &cli.Command{
 		Name:     "__ProjectName__",
