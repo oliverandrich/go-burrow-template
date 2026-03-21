@@ -8,6 +8,8 @@ coverage.out
 
 # SQLite
 *.db
+*.db-wal
+*.db-shm
 
 # OS
 .DS_Store
