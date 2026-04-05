@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
-# SPDX-License-Identifier: EUPL-1.2
+# SPDX-License-Identifier: MIT
 
 version: 2
 project_name: __ProjectName__

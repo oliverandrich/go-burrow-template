@@ -33,7 +33,7 @@ The server starts at [http://localhost:8080](http://localhost:8080).
 
 ## Requirements
 
-- Go 1.24+
+- Go 1.26+
 - [gohatch](https://github.com/oliverandrich/gohatch)
 - [just](https://github.com/casey/just) (command runner)
 - [golangci-lint](https://golangci-lint.run/) (linting)
@@ -52,18 +52,14 @@ The template uses placeholders that gohatch replaces automatically:
 ## Development
 
 ```bash
-just setup            # Setup project (download deps, install pre-commit hooks)
+just setup            # Check that all required dev tools are installed
 just run              # Run the development server
-just build            # Build binary to build/<name>
 just test             # Run tests
-just cover            # Run tests with coverage
-just cover-report     # Open coverage report in browser
+just coverage         # Run tests with coverage report
 just fmt              # Format code
 just lint             # Run linter
-just check            # Run fmt, lint, and test
-just clean            # Remove build artifacts
+just tidy             # Tidy module dependencies
 just install          # Install to $GOPATH/bin
-just release          # Create release with goreleaser
 ```
 
 ## Project Structure
@@ -88,4 +84,4 @@ just release          # Create release with goreleaser
 
 ## License
 
-EUPL-1.2 - see [LICENSE](LICENSE)
+MIT - see [LICENSE](LICENSE)

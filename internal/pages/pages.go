@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: EUPL-1.2
+// SPDX-License-Identifier: MIT
 
 // Package pages provides the app's static pages (homepage)
 // and template overrides for the bootstrap navbar and alerts.
