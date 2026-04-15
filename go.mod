@@ -4,7 +4,7 @@ go 1.26.1
 
 require (
 	github.com/go-chi/chi/v5 v5.2.5
-	github.com/oliverandrich/burrow v0.11.4
+	github.com/oliverandrich/burrow v0.13.0
 	github.com/urfave/cli/v3 v3.8.0
 )
 
@@ -30,7 +30,7 @@ require (
 	github.com/ncruces/go-strftime v1.0.0 // indirect
 	github.com/nicksnyder/go-i18n/v2 v2.6.1 // indirect
 	github.com/oklog/ulid/v2 v2.1.1 // indirect
-	github.com/oliverandrich/den v0.5.0 // indirect
+	github.com/oliverandrich/den v0.6.0 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	golang.org/x/crypto v0.49.0 // indirect
 	golang.org/x/net v0.52.0 // indirect
