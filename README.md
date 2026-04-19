@@ -36,6 +36,7 @@ The server starts at [http://localhost:8080](http://localhost:8080).
 - Go 1.26+
 - [gohatch](https://github.com/oliverandrich/gohatch)
 - [just](https://github.com/casey/just) (command runner)
+- [air](https://github.com/air-verse/air) (live reload during development)
 - [golangci-lint](https://golangci-lint.run/) (linting)
 - [tparse](https://github.com/mfridman/tparse) (test output formatting)
 
@@ -53,7 +54,8 @@ The template uses placeholders that gohatch replaces automatically:
 
 ```bash
 just setup            # Check that all required dev tools are installed
-just run              # Run the development server
+just run              # Run the development server with live reload (air)
+just run-once         # Run the development server without live reload
 just test             # Run tests
 just coverage         # Run tests with coverage report
 just fmt              # Format code
@@ -61,6 +63,12 @@ just lint             # Run linter
 just tidy             # Tidy module dependencies
 just install          # Install to $GOPATH/bin
 ```
+
+`just run` starts [air](https://github.com/air-verse/air) which rebuilds and
+restarts the server whenever `.go` or `.html` files change. On first run a
+`.dev-keys` file is generated with persistent `SESSION_HASH_KEY` and
+`CSRF_KEY` values so sessions and CSRF tokens survive air reloads. The file
+is gitignored.
 
 ## Project Structure
 
