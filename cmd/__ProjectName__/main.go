@@ -18,6 +18,7 @@ import (
 	"github.com/oliverandrich/burrow/contrib/messages"
 	"github.com/oliverandrich/burrow/contrib/session"
 	"github.com/oliverandrich/burrow/contrib/staticfiles"
+	_ "github.com/oliverandrich/den/backend/sqlite" // register sqlite:// scheme
 	"github.com/oliverandrich/go-burrow-template/internal/pages"
 	"github.com/urfave/cli/v3"
 )
