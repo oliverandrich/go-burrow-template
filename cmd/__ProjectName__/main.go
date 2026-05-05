@@ -11,11 +11,11 @@ import (
 	"runtime/debug"
 
 	"github.com/oliverandrich/burrow"
-	"github.com/oliverandrich/burrow/contrib/bootstrap"
 	"github.com/oliverandrich/burrow/contrib/csrf"
 	"github.com/oliverandrich/burrow/contrib/healthcheck"
 	"github.com/oliverandrich/burrow/contrib/htmx"
 	"github.com/oliverandrich/burrow/contrib/messages"
+	"github.com/oliverandrich/burrow/contrib/mucss"
 	"github.com/oliverandrich/burrow/contrib/session"
 	"github.com/oliverandrich/burrow/contrib/staticfiles"
 	_ "github.com/oliverandrich/den/backend/sqlite" // register sqlite:// scheme
@@ -57,10 +57,10 @@ func main() {
 		pages.New(),
 		messages.New(),
 		htmx.New(),
-		bootstrap.New(),
+		mucss.New(),
 	)
 
-	srv.SetLayout(bootstrap.NavLayout())
+	srv.SetLayout(mucss.NavLayout())
 
 	cmd := &cli.Command{
 		Name:     "__ProjectName__",

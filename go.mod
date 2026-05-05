@@ -4,7 +4,7 @@ go 1.26.1
 
 require (
 	github.com/go-chi/chi/v5 v5.2.5
-	github.com/oliverandrich/burrow v0.17.0
+	github.com/oliverandrich/burrow v0.18.0
 	github.com/urfave/cli/v3 v3.8.0
 )
 
@@ -22,7 +22,7 @@ require (
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/nicksnyder/go-i18n/v2 v2.6.1 // indirect
 	github.com/oklog/ulid/v2 v2.1.1 // indirect
-	github.com/oliverandrich/den v0.11.0 // indirect
+	github.com/oliverandrich/den v0.11.2 // indirect
 	golang.org/x/crypto v0.50.0 // indirect
 	golang.org/x/net v0.52.0 // indirect
 	golang.org/x/sys v0.43.0 // indirect

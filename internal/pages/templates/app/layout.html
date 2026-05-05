@@ -1,39 +1,26 @@
-{{ define "bootstrap/navbar" -}}
-<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
-    <div class="container">
-        <a class="navbar-brand" href="/">__ProjectName__</a>
-        <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                {{ range navLinks -}}
-                <li class="nav-item">
-                    <a class="nav-link{{ if .IsActive }} active{{ end }}" href="{{ .URL }}"
-                       hx-get="{{ .URL }}" hx-target="main" hx-push-url="true">
-                        {{ if .Icon }}<span class="me-1">{{ .Icon }}</span>{{ end }}{{ .Label }}
-                    </a>
-                </li>
-                {{- end }}
-            </ul>
-            <div class="me-3">
-                {{ template "bootstrap/theme_switcher" . }}
-            </div>
-        </div>
-    </div>
+{{ define "mucss/navbar" -}}
+<nav class="container-fluid">
+    <ul>
+        <li><a href="/" class="contrast"><strong>__ProjectName__</strong></a></li>
+        {{ range navLinks -}}
+        <li>
+            <a href="{{ .URL }}"{{ if .IsActive }} aria-current="page"{{ end }}
+               hx-get="{{ .URL }}" hx-target="main" hx-push-url="true">
+                {{ if .Icon }}{{ .Icon }} {{ end }}{{ .Label }}
+            </a>
+        </li>
+        {{- end }}
+    </ul>
+    <ul>
+        <li>{{ template "mucss/theme_switcher" . }}</li>
+    </ul>
 </nav>
 {{- end }}
 
-{{ define "bootstrap/alerts" -}}
+{{ define "mucss/alerts" -}}
 <div id="alerts">
     {{ range messages -}}
-    <div class="alert alert-{{ alertClass .Level }} alert-dismissible fade show" role="alert">
-        {{ .Text }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+    <div role="alert" class="alert alert-{{ alertClass .Level }}">{{ .Text }}</div>
     {{- end }}
 </div>
 {{- end }}
@@ -41,10 +28,7 @@
 {{ define "app/alerts_oob" -}}
 <div id="alerts" hx-swap-oob="innerHTML">
     {{ range messages -}}
-    <div class="alert alert-{{ alertClass .Level }} alert-dismissible fade show" role="alert">
-        {{ .Text }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+    <div role="alert" class="alert alert-{{ alertClass .Level }}">{{ .Text }}</div>
     {{- end }}
 </div>
 {{- end }}

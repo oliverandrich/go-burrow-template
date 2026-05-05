@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 // Package pages provides the app's static pages (homepage)
-// and template overrides for the bootstrap navbar and alerts.
+// and template overrides for the mucss navbar and alerts.
 package pages
 
 import (
@@ -32,6 +32,7 @@ func (a *App) Configure(cfg *burrow.AppConfig, _ *cli.Command) error {
 	cfg.RegisterIconFunc("iconHouse", bsicons.House)
 	cfg.RegisterIconFunc("iconPuzzle", bsicons.Puzzle)
 	cfg.RegisterIconFunc("iconLightning", bsicons.Lightning)
+	cfg.RegisterIconFunc("iconPalette", bsicons.Palette)
 	return nil
 }
 

@@ -48,10 +48,10 @@ github.com/nicksnyder/go-i18n/v2 v2.6.1 h1:JDEJraFsQE17Dut9HFDHzCoAWGEQJom5s0TRd
 github.com/nicksnyder/go-i18n/v2 v2.6.1/go.mod h1:Vee0/9RD3Quc/NmwEjzzD7VTZ+Ir7QbXocrkhOzmUKA=
 github.com/oklog/ulid/v2 v2.1.1 h1:suPZ4ARWLOJLegGFiZZ1dFAkqzhMjL3J1TzI+5wHz8s=
 github.com/oklog/ulid/v2 v2.1.1/go.mod h1:rcEKHmBBKfef9DhnvX7y1HZBYxjXb0cP5ExxNsTT1QQ=
-github.com/oliverandrich/burrow v0.17.0 h1:ytO8Qw0yYoktOpaDovRzyqQIAPB0/pXk2z+Hy5IQdEI=
-github.com/oliverandrich/burrow v0.17.0/go.mod h1:4oqzNeO04TkQtO7RjqJSBgXdqSXpTVKQivl7m5Np8PM=
-github.com/oliverandrich/den v0.11.0 h1:48CkHjKm2IqmDW6xPf5xJJdiyci31Ofu69wu/mQxOAM=
-github.com/oliverandrich/den v0.11.0/go.mod h1:QodJ4qSlGHvw9BA8XJ/8AQeBePqpqcrLnZb6c6qnQ1o=
+github.com/oliverandrich/burrow v0.18.0 h1:/bAfQdMHOkeweYLqT5B81Nd3Gb1mFP61S/KVFZuhcH8=
+github.com/oliverandrich/burrow v0.18.0/go.mod h1:BsdvXFs8oQhmT/01yhBgopFsSkwJIyI7DiT/FxJudRg=
+github.com/oliverandrich/den v0.11.2 h1:dx3vb4QmbQMUGJIImNuPW8B9Ngnvhdov42h3Rghh3Z8=
+github.com/oliverandrich/den v0.11.2/go.mod h1:QodJ4qSlGHvw9BA8XJ/8AQeBePqpqcrLnZb6c6qnQ1o=
 github.com/pborman/getopt v0.0.0-20170112200414-7148bc3a4c30/go.mod h1:85jBQOZwpVEaDAr341tbn15RS4fCAsIst0qp7i8ex1o=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
