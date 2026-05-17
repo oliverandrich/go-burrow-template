@@ -28,7 +28,7 @@ if [ ! -f .dev-keys ]; then
 fi
 '''
 
-[tasks.run]
+[tasks.dev]
 description = "Run the development server with live reload (air) — builds CSS first"
 depends = ["css", "ensure-dev-keys"]
 run = '''

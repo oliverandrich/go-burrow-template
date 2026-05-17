@@ -29,7 +29,7 @@ cd your-app
 mise install
 
 # Run the development server with live reload
-mise run run
+mise run dev
 ```
 
 The server starts at [http://localhost:8080](http://localhost:8080).
@@ -56,7 +56,7 @@ The template uses placeholders that gohatch replaces automatically:
 ```bash
 mise tasks            # List every available task
 mise run setup        # Verify dev tools + remind to install pre-commit hooks
-mise run run          # Live-reload dev server (builds CSS first, then air)
+mise run dev          # Live-reload dev server (builds CSS first, then air)
 mise run run-once     # Same but without live reload
 mise run css          # Build the Tailwind CSS bundle once
 mise run css-watch    # Rebuild the CSS on every template change
@@ -69,7 +69,7 @@ mise run tidy         # Tidy module dependencies
 mise run install      # Install the binary to $GOPATH/bin
 ```
 
-`mise run run` builds the Tailwind CSS bundle once, then starts [air](https://github.com/air-verse/air) which rebuilds and restarts the Go binary whenever `.go` or `.html` files change. For CSS changes during development, run `mise run css-watch` in a second terminal — air doesn't touch the stylesheet.
+`mise run dev` builds the Tailwind CSS bundle once, then starts [air](https://github.com/air-verse/air) which rebuilds and restarts the Go binary whenever `.go` or `.html` files change. For CSS changes during development, run `mise run css-watch` in a second terminal — air doesn't touch the stylesheet.
 
 On first run a `.dev-keys` file is generated with persistent `SESSION_HASH_KEY` and `CSRF_KEY` so sessions and CSRF tokens survive reloads. The file is gitignored.
 
