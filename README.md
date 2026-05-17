@@ -8,15 +8,7 @@
 
 __ProjectDescription__
 
-## Stack
-
-- **[Burrow](https://github.com/oliverandrich/burrow)** v0.20+ — Django-inspired Go web framework
-- **Tailwind v4** via the standalone CLI (`cmd/burrow-tailwind`), with dark mode that follows `prefers-color-scheme`
-- **htmx** for server-driven interactivity
-- **SQLite** via Den (pure Go, no CGO)
-- **mise** for task running and tool pinning
-- **golangci-lint** for code quality
-- **goreleaser** for releases
+Built on [Burrow](https://github.com/oliverandrich/burrow) (Django-inspired Go web framework), Tailwind v4 (utility-first CSS, dark mode via `prefers-color-scheme`), [htmx](https://htmx.org/) (server-driven interactivity), SQLite via [Den](https://github.com/oliverandrich/den) (pure Go, no CGO).
 
 ## Quick Start
 
@@ -25,25 +17,23 @@ __ProjectDescription__
 gohatch github.com/oliverandrich/go-burrow-template github.com/you/your-app
 cd your-app
 
-# Install pinned tools (Go, Tailwind, linters, ...) via mise
+# Install pinned tools (Go, Tailwind, linters, goreleaser, ...) via mise
 mise install
 
 # Run the development server with live reload
 mise run dev
 ```
 
-The server starts at [http://localhost:8080](http://localhost:8080).
+Server: <http://localhost:8080>.
 
 ## Requirements
 
-- [mise](https://mise.jdx.dev/) (handles every other dependency on `mise install`)
-- [gohatch](https://github.com/oliverandrich/gohatch) for instantiating the template
-
-`mise install` pins and installs the Go toolchain, the Tailwind v4 CLI, `air` for live reload, `golangci-lint`, `tparse`, `goimports`, `govulncheck`, and `pre-commit`. No manual `go install` lines.
+- [mise](https://mise.jdx.dev/) — installs every other tool pinned in `.mise.toml`
+- [gohatch](https://github.com/oliverandrich/gohatch) — instantiates the template
 
 ## Template Variables
 
-The template uses placeholders that gohatch replaces automatically:
+`gohatch` replaces these placeholders during scaffolding:
 
 | Placeholder              | Replaced with                        |
 | ------------------------ | ------------------------------------ |
@@ -53,24 +43,17 @@ The template uses placeholders that gohatch replaces automatically:
 
 ## Development
 
-```bash
-mise tasks            # List every available task
-mise run setup        # Verify dev tools + remind to install pre-commit hooks
-mise run dev          # Live-reload dev server (air, rebuilds CSS on every change)
-mise run css          # Build the Tailwind CSS bundle (one-shot)
-mise run css-watch    # Rebuild the CSS on every template change
-mise run test         # Run tests
-mise run coverage     # Run tests with HTML coverage report
-mise run fmt          # Format code
-mise run lint         # Run golangci-lint
-mise run vuln         # Run govulncheck
-mise run tidy         # Tidy module dependencies
-mise run install      # Install the binary to $GOPATH/bin
-```
+`mise tasks` lists every task. The dev loop:
 
-`mise run dev` starts [air](https://github.com/air-verse/air) which rebuilds and restarts the Go binary whenever `.go`, `.html`, or `.css` files change. Every air rebuild also re-runs `burrow-tailwind` before `go build`, so the embedded CSS bundle (served from `internal/app/static/app.min.css` via `//go:embed`) stays in sync with the templates' utility classes.
+| Task | What it does |
+|---|---|
+| `mise run dev` | air (live reload). Every rebuild reruns `burrow-tailwind`, so the embedded CSS bundle stays in sync with template utility classes. |
+| `mise run test` | `go test ./...` via tparse |
+| `mise run lint` | golangci-lint |
+| `mise run fmt` | gofmt + goimports |
+| `mise run vuln` | govulncheck |
 
-On first run a `.dev-keys` file is generated with persistent `SESSION_HASH_KEY` and `CSRF_KEY` so sessions and CSRF tokens survive reloads. The file is gitignored.
+On first `mise run dev` a `.dev-keys` file is generated with persistent `SESSION_HASH_KEY` and `CSRF_KEY` so sessions and CSRF tokens survive reloads. The file is gitignored.
 
 ## Project Structure
 
@@ -98,26 +81,43 @@ On first run a `.dev-keys` file is generated with persistent `SESSION_HASH_KEY` 
 └── .goreleaser.yaml             # Release config (archives + Docker image)
 ```
 
-`internal/app/` follows the Pattern B project layout from Burrow's [Tailwind guide](https://burrow.readthedocs.io/en/latest/guide/tailwind/) — the shell app owns the layout templates, the compiled Tailwind CSS, and the project-level icon defines, all served under the `/static/app/` URL prefix.
+`internal/app/` follows the Pattern B project layout from Burrow's [Tailwind guide](https://burrow.readthedocs.io/en/latest/guide/tailwind/): the shell app owns the layout templates, the compiled Tailwind CSS, and the project-level icon defines, all served under the `/static/app/` URL prefix.
 
 ## Releases
 
-Pushing a `v*` tag (e.g. `git tag v0.1.0 && git push origin v0.1.0`) fires the release workflow:
-
-1. `goreleaser` builds platform binaries for linux/darwin/windows × amd64/arm64 and uploads them as `tar.gz` / `zip` archives to the GitHub Release.
-2. It also builds a multi-arch Docker image (linux/amd64 + linux/arm64) via buildx and pushes it to GitHub Container Registry as `ghcr.io/<user>/<project>:<version>` plus `:latest`.
-
-Run the published image:
+Push a `v*` tag to trigger the release workflow:
 
 ```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+The workflow runs `mise run release` (= `goreleaser release --clean`) which in one go:
+
+1. Builds binaries for linux / darwin / windows × amd64 / arm64
+2. Packages them as `tar.gz` (Linux) / `zip` (macOS, Windows) + `checksums.txt`
+3. Builds a multi-arch Docker image (`linux/amd64` + `linux/arm64`)
+4. Uploads the archives to GitHub Releases (with auto-generated notes grouped by `feat:` / `fix:`)
+5. Pushes the image to GitHub Container Registry as `ghcr.io/<user>/<project>:v<version>` and `:latest`
+
+Local alternatives:
+
+| Task | When |
+|---|---|
+| `mise run release-snapshot` | Sanity-check the goreleaser config without publishing or building Docker |
+| `mise run release-no-docker` | Cut a binaries-only release (e.g. when ghcr auth is missing) |
+| `mise run release` | Same as the CI workflow — needs an authenticated `gh` + Docker login to ghcr.io |
+
+Run the published Docker image:
+
+```bash
+mkdir -p data && sudo chown 65532:65532 data  # distroless nonroot UID
 docker run --rm -p 8080:8080 \
     -v $PWD/data:/data \
     -e DATABASE_DSN=sqlite:////data/app.db \
     ghcr.io/<user>/<project>:latest
 ```
 
-The container runs as the distroless `nonroot` user (UID 65532). For a fresh data directory: `mkdir -p data && sudo chown 65532:65532 data`.
-
 ## License
 
-MIT - see [LICENSE](LICENSE)
+MIT — see [LICENSE](LICENSE).
