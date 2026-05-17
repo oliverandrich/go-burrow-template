@@ -56,8 +56,8 @@ The template uses placeholders that gohatch replaces automatically:
 ```bash
 mise tasks            # List every available task
 mise run setup        # Verify dev tools + remind to install pre-commit hooks
-mise run dev          # Live-reload dev server (builds CSS first, then air)
-mise run css          # Build the Tailwind CSS bundle once
+mise run dev          # Live-reload dev server (air, rebuilds CSS on every change)
+mise run css          # Build the Tailwind CSS bundle (one-shot)
 mise run css-watch    # Rebuild the CSS on every template change
 mise run test         # Run tests
 mise run coverage     # Run tests with HTML coverage report
@@ -68,7 +68,7 @@ mise run tidy         # Tidy module dependencies
 mise run install      # Install the binary to $GOPATH/bin
 ```
 
-`mise run dev` builds the Tailwind CSS bundle once, then starts [air](https://github.com/air-verse/air) which rebuilds and restarts the Go binary whenever `.go` or `.html` files change. For CSS changes during development, run `mise run css-watch` in a second terminal — air doesn't touch the stylesheet.
+`mise run dev` starts [air](https://github.com/air-verse/air) which rebuilds and restarts the Go binary whenever `.go`, `.html`, or `.css` files change. Every air rebuild also re-runs `burrow-tailwind` before `go build`, so the embedded CSS bundle (served from `internal/app/static/app.min.css` via `//go:embed`) stays in sync with the templates' utility classes.
 
 On first run a `.dev-keys` file is generated with persistent `SESSION_HASH_KEY` and `CSRF_KEY` so sessions and CSRF tokens survive reloads. The file is gitignored.
 

@@ -9,12 +9,8 @@ go = "1.26"
 "pipx:pre-commit" = "latest"
 
 [tasks.css]
-description = "Build the Tailwind CSS bundle"
+description = "Build the Tailwind CSS bundle (also re-run automatically by air on every dev rebuild)"
 run = "go tool burrow-tailwind -i tailwind.css -o internal/app/static/app.min.css --minify"
-
-[tasks.css-watch]
-description = "Rebuild the Tailwind CSS bundle on every template change"
-run = "go tool burrow-tailwind -i tailwind.css -o internal/app/static/app.min.css --watch"
 
 [tasks.ensure-dev-keys]
 description = "Generate persistent dev session/CSRF keys on first run"
@@ -29,8 +25,8 @@ fi
 '''
 
 [tasks.dev]
-description = "Run the development server with live reload (air) — builds CSS first"
-depends = ["css", "ensure-dev-keys"]
+description = "Run the development server with live reload (air, rebuilds CSS on every change)"
+depends = ["ensure-dev-keys"]
 run = '''
 #!/usr/bin/env bash
 set -a; source .dev-keys; set +a
