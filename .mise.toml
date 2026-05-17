@@ -6,6 +6,7 @@ go = "1.26"
 "go:golang.org/x/tools/cmd/goimports" = "latest"
 "go:golang.org/x/vuln/cmd/govulncheck" = "latest"
 "github:tailwindlabs/tailwindcss" = "4"
+"goreleaser" = "latest"
 "pipx:pre-commit" = "latest"
 
 [tasks.css]
@@ -68,6 +69,21 @@ run = "govulncheck ./..."
 description = "Install binary to $GOPATH/bin"
 depends = ["css"]
 run = "go install -ldflags=\"-s -w -X 'main.version=$(git describe --tags --always --dirty 2>/dev/null || echo dev)'\" ./cmd/__ProjectName__"
+
+[tasks.release-snapshot]
+description = "Snapshot release (local build, no publish, no docker) — sanity-check goreleaser config"
+depends = ["css"]
+run = "goreleaser release --snapshot --clean --skip=publish,docker"
+
+[tasks.release]
+description = "Cut a release: archives for all OS/arch + multi-arch Docker image. Requires v* tag + GH/ghcr auth."
+depends = ["css"]
+run = "goreleaser release --clean"
+
+[tasks."release-no-docker"]
+description = "Cut a binaries-only release (no Docker image). Useful when ghcr auth is unavailable."
+depends = ["css"]
+run = "goreleaser release --clean --skip=docker"
 
 [tasks.setup]
 description = "Verify dev tools + install git hooks"
