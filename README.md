@@ -91,13 +91,32 @@ On first run a `.dev-keys` file is generated with persistent `SESSION_HASH_KEY` 
 │           └── pages/
 │               └── home.html
 ├── tailwind.css                 # Tailwind entrypoint (imports source list)
+├── Dockerfile                   # Multi-arch image (linux/amd64 + linux/arm64)
 ├── go.mod                       # Pinned to burrow v0.20+
 ├── .mise.toml                   # Tool pins + task runner
 ├── .golangci.yml                # Linter config
-└── .goreleaser.yaml             # Release config
+└── .goreleaser.yaml             # Release config (archives + Docker image)
 ```
 
 `internal/app/` follows the Pattern B project layout from Burrow's [Tailwind guide](https://burrow.readthedocs.io/en/latest/guide/tailwind/) — the shell app owns the layout templates, the compiled Tailwind CSS, and the project-level icon defines, all served under the `/static/app/` URL prefix.
+
+## Releases
+
+Pushing a `v*` tag (e.g. `git tag v0.1.0 && git push origin v0.1.0`) fires the release workflow:
+
+1. `goreleaser` builds platform binaries for linux/darwin/windows × amd64/arm64 and uploads them as `tar.gz` / `zip` archives to the GitHub Release.
+2. It also builds a multi-arch Docker image (linux/amd64 + linux/arm64) via buildx and pushes it to GitHub Container Registry as `ghcr.io/<user>/<project>:<version>` plus `:latest`.
+
+Run the published image:
+
+```bash
+docker run --rm -p 8080:8080 \
+    -v $PWD/data:/data \
+    -e DATABASE_DSN=sqlite:////data/app.db \
+    ghcr.io/<user>/<project>:latest
+```
+
+The container runs as the distroless `nonroot` user (UID 65532). For a fresh data directory: `mkdir -p data && sudo chown 65532:65532 data`.
 
 ## License
 
