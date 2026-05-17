@@ -10,6 +10,7 @@ import (
 	"os"
 	"runtime/debug"
 
+	"github.com/lmittmann/tint"
 	"github.com/oliverandrich/burrow"
 	"github.com/oliverandrich/burrow/contrib/csrf"
 	"github.com/oliverandrich/burrow/contrib/healthcheck"
@@ -20,6 +21,7 @@ import (
 	_ "github.com/oliverandrich/den/backend/sqlite" // register sqlite:// scheme
 	"github.com/oliverandrich/go-burrow-template/internal/app"
 	"github.com/urfave/cli/v3"
+	"golang.org/x/term"
 )
 
 // version is set via ldflags at build time.
@@ -39,8 +41,12 @@ func init() {
 }
 
 func main() {
-	slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
-		Level: slog.LevelDebug,
+	// Console logging via lmittmann/tint — colorized in a TTY, plain text
+	// when stdout is piped (log files, journald, docker logs etc.) so
+	// production log aggregators get clean output.
+	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, &tint.Options{
+		Level:   slog.LevelDebug,
+		NoColor: !term.IsTerminal(int(os.Stdout.Fd())),
 	})))
 
 	staticApp, err := staticfiles.New(emptyFS)
