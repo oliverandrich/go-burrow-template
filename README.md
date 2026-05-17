@@ -57,7 +57,6 @@ The template uses placeholders that gohatch replaces automatically:
 mise tasks            # List every available task
 mise run setup        # Verify dev tools + remind to install pre-commit hooks
 mise run dev          # Live-reload dev server (builds CSS first, then air)
-mise run run-once     # Same but without live reload
 mise run css          # Build the Tailwind CSS bundle once
 mise run css-watch    # Rebuild the CSS on every template change
 mise run test         # Run tests

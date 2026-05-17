@@ -37,15 +37,6 @@ set -a; source .dev-keys; set +a
 air
 '''
 
-[tasks.run-once]
-description = "Run the development server without live reload — builds CSS first"
-depends = ["css", "ensure-dev-keys"]
-run = '''
-#!/usr/bin/env bash
-set -a; source .dev-keys; set +a
-go run -ldflags="-X 'main.version=$(git describe --tags --always --dirty 2>/dev/null || echo dev)'" ./cmd/__ProjectName__
-'''
-
 [tasks.test]
 description = "Run all tests"
 run = 'go test -json "$@" ./... | tparse'
