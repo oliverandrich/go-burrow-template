@@ -15,20 +15,19 @@ import (
 	"github.com/oliverandrich/burrow/contrib/healthcheck"
 	"github.com/oliverandrich/burrow/contrib/htmx"
 	"github.com/oliverandrich/burrow/contrib/messages"
-	"github.com/oliverandrich/burrow/contrib/mucss"
 	"github.com/oliverandrich/burrow/contrib/session"
 	"github.com/oliverandrich/burrow/contrib/staticfiles"
 	_ "github.com/oliverandrich/den/backend/sqlite" // register sqlite:// scheme
-	"github.com/oliverandrich/go-burrow-template/internal/pages"
+	"github.com/oliverandrich/go-burrow-template/internal/app"
 	"github.com/urfave/cli/v3"
 )
 
 // version is set via ldflags at build time.
 var version = "dev"
 
-// emptyFS is an empty filesystem for staticfiles when the app has
-// no user-level static assets. Contrib apps contribute their own via
-// HasStaticFiles.
+// emptyFS is an empty filesystem for the framework's root staticfiles app.
+// The project's stylesheet (Tailwind output) is contributed by internal/app
+// via its own HasStaticFiles under the "app" prefix.
 var emptyFS embed.FS
 
 func init() {
@@ -54,13 +53,12 @@ func main() {
 		csrf.New(),
 		staticApp,
 		healthcheck.New(),
-		pages.New(),
 		messages.New(),
 		htmx.New(),
-		mucss.New(),
+		app.New(),
 	)
 
-	srv.SetLayout(mucss.NavLayout())
+	srv.SetLayout("app/layout")
 
 	cmd := &cli.Command{
 		Name:     "__ProjectName__",
@@ -68,7 +66,7 @@ func main() {
 		Version:  version,
 		Flags:    srv.Flags(nil),
 		Action:   srv.Run,
-		Commands: srv.Registry().AllCLICommands(),
+		Commands: srv.CLICommands(),
 	}
 
 	if err := cmd.Run(context.Background(), os.Args); err != nil {

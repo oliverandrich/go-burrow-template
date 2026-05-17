@@ -18,6 +18,10 @@ coverage.html
 *.db-wal
 *.db-shm
 
+# Tailwind output (built fresh by `mise run css`)
+/internal/app/static/app.min.css
+/.tailwind/
+
 # OS
 .DS_Store
 
