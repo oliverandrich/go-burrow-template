@@ -45,17 +45,13 @@
 {{- end }}
 
 {{ define "app/alerts" -}}
-<div id="alerts" class="mb-4 space-y-2">
-    {{ range messages -}}
-    <div class="rounded-md border px-3 py-2 text-sm {{ template "app/alert_classes" .Level }}" role="alert">{{ .Text }}</div>
-    {{- end }}
-</div>
+<div id="alerts" class="mb-4 space-y-2 empty:hidden">{{- range messages -}}
+<div class="rounded-md border px-3 py-2 text-sm {{ template "app/alert_classes" .Level }}" role="alert">{{ .Text }}</div>
+{{- end -}}</div>
 {{- end }}
 
 {{ define "app/alerts_oob" -}}
-<div id="alerts" class="mb-4 space-y-2" hx-swap-oob="innerHTML">
-    {{ range messages -}}
-    <div class="rounded-md border px-3 py-2 text-sm {{ template "app/alert_classes" .Level }}" role="alert">{{ .Text }}</div>
-    {{- end }}
-</div>
+<div id="alerts" class="mb-4 space-y-2 empty:hidden" hx-swap-oob="innerHTML">{{- range messages -}}
+<div class="rounded-md border px-3 py-2 text-sm {{ template "app/alert_classes" .Level }}" role="alert">{{ .Text }}</div>
+{{- end -}}</div>
 {{- end }}
