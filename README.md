@@ -1,5 +1,19 @@
 # __ProjectName__
 
+> [!WARNING]
+> **This repository is archived.** As of [Burrow v0.21.0](https://github.com/oliverandrich/burrow/releases/tag/v0.21.0), project scaffolding is built into the framework itself. Use the bundled `burrow new` CLI instead:
+>
+> ```bash
+> go install github.com/oliverandrich/burrow/cmd/burrow@latest
+> burrow new myapp --module github.com/you/myapp
+> cd myapp && go run ./cmd/myapp
+> ```
+>
+> See the [Burrow CLI reference](https://burrow.readthedocs.io/reference/cli/) for all flags. The template files here are kept read-only as a historical snapshot; no further updates will be made.
+
+---
+
+
 <a href="https://github.com/__GitUser__/__ProjectName__/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/__GitUser__/__ProjectName__/ci.yml?branch=main&label=CI&style=for-the-badge" alt="CI"></a>
 <a href="https://github.com/__GitUser__/__ProjectName__/releases"><img src="https://img.shields.io/github/v/release/__GitUser__/__ProjectName__?style=for-the-badge" alt="Release"></a>
 <a href="https://go.dev/"><img src="https://img.shields.io/github/go-mod/go-version/__GitUser__/__ProjectName__?style=for-the-badge" alt="Go Version"></a>
